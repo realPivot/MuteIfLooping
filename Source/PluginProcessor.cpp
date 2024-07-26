@@ -112,8 +112,7 @@ void MuteIfLoopingAudioProcessor::changeProgramName (int index, const juce::Stri
 //==============================================================================
 void MuteIfLoopingAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-    // Use this method as the place to do any pre-playback
-    // initialisation that you need..
+    gain.reset(sampleRate, 0.05);
 }
 
 void MuteIfLoopingAudioProcessor::releaseResources()
@@ -154,15 +153,23 @@ void MuteIfLoopingAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
 
-    auto host = getPlayHead()->getPosition()->getLoopPoints();
-    if (host.hasValue())
-    {
-        setIsLooping(true);
+    auto playHead = getPlayHead();
+    auto playHeadPosition = playHead->getPosition();
+    if (playHeadPosition) {
+        auto loopPoints = playHeadPosition->getLoopPoints();
+        auto isLoopEnabledInDaw = playHeadPosition->getIsLooping();
+        if (loopPoints.hasValue() && isLoopEnabledInDaw)
+        {
+            setIsLooping(true);
+            gain.setTargetValue(0.0f);
+        }
+        else
+        {
+            setIsLooping(false);
+            gain.setTargetValue(1.f); 
+        }
     }
-    else
-    {
-        setIsLooping(false);
-    }
+
 
     // In case we have more outputs than inputs, this code clears any output
     // channels that didn't contain input data, (because these aren't
@@ -181,11 +188,8 @@ void MuteIfLoopingAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer
 
         for (auto sample = 0; sample < buffer.getNumSamples(); sample++)
         {
-            if (isLooping) {
-                channelData[sample] = 0;
-            }
+            channelData[sample] = channelData[sample] * gain.getNextValue();
         }
-        
         
     }
 }

@@ -36,6 +36,7 @@ private:
     MuteIfLoopingAudioProcessor& audioProcessor;
     bool isLooping;
     juce::Label mainLabel;
+    juce::Label versionLabel;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MuteIfLoopingAudioProcessorEditor)
 };

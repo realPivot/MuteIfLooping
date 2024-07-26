@@ -2,9 +2,9 @@
 
 <JUCERPROJECT id="R7P3yk" name="MuteIfLooping" projectType="audioplug" useAppConfig="0"
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1"
-              version="1.0" companyWebsite="Cove" pluginFormats="buildVST3"
-              pluginName="MuteIfLooping" pluginManufacturer="Cove" pluginDesc="Mute's the output if there is a loop time selection"
-              pluginVST3Category="Fx">
+              version="1.01" pluginFormats="buildVST3" pluginName="MuteIfLooping"
+              pluginManufacturer="Cove" pluginDesc="Mute's the output if there is a loop time selection"
+              pluginVST3Category="Fx" companyName="Cove">
   <MAINGROUP id="eG8no2" name="MuteIfLooping">
     <GROUP id="{6E30EB65-BD43-1323-B06B-247475315454}" name="Source">
       <FILE id="JIUjK2" name="PluginProcessor.cpp" compile="1" resource="0"

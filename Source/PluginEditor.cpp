@@ -15,7 +15,7 @@ MuteIfLoopingAudioProcessorEditor::MuteIfLoopingAudioProcessorEditor (MuteIfLoop
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
-    setSize (200 , 100);
+    setSize (150 , 85);
     startTimerHz(24);
 
     
@@ -25,7 +25,13 @@ MuteIfLoopingAudioProcessorEditor::MuteIfLoopingAudioProcessorEditor (MuteIfLoop
     mainLabel.setFont(15.0f);
     mainLabel.setColour(juce::Label::textColourId, juce::Colours::black);
     mainLabel.setColour(juce::Label::backgroundColourId, juce::Colours::transparentWhite);
-    mainLabel.setEditable(false, false, true);
+    mainLabel.setEditable(false, false, false);
+
+    addAndMakeVisible(versionLabel);
+    versionLabel.setText(JucePlugin_VersionString, juce::dontSendNotification);
+    versionLabel.setFont(12.f);
+    mainLabel.copyAllExplicitColoursTo(versionLabel);
+    versionLabel.setEditable(false, false, false);
 }
 
 MuteIfLoopingAudioProcessorEditor::~MuteIfLoopingAudioProcessorEditor()
@@ -62,6 +68,9 @@ void MuteIfLoopingAudioProcessorEditor::resized()
     auto bounds = getBounds();
     mainLabel.setBounds(bounds);
     mainLabel.setJustificationType(juce::Justification::centred);
+
+    versionLabel.setBounds(bounds);
+    versionLabel.setJustificationType(juce::Justification::bottomRight);
 }
 
 void MuteIfLoopingAudioProcessorEditor::enableLoop()
